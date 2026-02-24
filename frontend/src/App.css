@@ -1,0 +1,284 @@
+/* 🔥 GLOBAL */
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #f5f7fb;
+  color: #1e293b;
+}
+
+/* 🔥 LAYOUT */
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* 🔥 SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: #ffffff;
+  padding: 20px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.sidebar p {
+  font-size: 16px;
+  color: #677a95;
+  margin: 0 0 10px 0;
+}
+
+.menu-item {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: #e2e8f0;
+}
+
+.jobs {
+  background: #64748b;
+  color: white;
+}
+
+.toggle-btn {
+  margin-top: 15px;
+  width: 100%;
+  background: #0ea5e9;
+}
+
+.extra-menu {
+  margin-top: 10px;
+}
+
+/* 🔥 MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔥 TOPBAR */
+.topbar {
+  padding: 20px 25px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+.topbar h3 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* 🔥 CONTENT */
+.content {
+  padding: 20px;
+}
+
+/* 🔥 CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1;
+  min-width: 150px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card p {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0;
+}
+
+.card h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+/* 🔥 CARD COLORS */
+.card:nth-child(1) { border-left: 6px solid #3b82f6; }
+.card:nth-child(2) { border-left: 6px solid #f59e0b; }
+.card:nth-child(3) { border-left: 6px solid #10b981; }
+
+.card:nth-child(4) { 
+  border-left: 6px solid #22c55e;
+  box-shadow: 0 4px 12px rgba(34,197,94,0.25);
+}
+
+.card:nth-child(5) { 
+  border-left: 6px solid #ef4444;
+  box-shadow: 0 4px 12px rgba(239,68,68,0.25);
+}
+
+.card:nth-child(6) { 
+  border-left: 6px solid #22c55e;
+}
+
+.card:nth-child(7) { 
+  border-left: 6px solid #ef4444;
+}
+
+/* 🔥 ROW */
+.row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* 🔥 CHART */
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.chart-container {
+  height: 280px;
+}
+
+/* 🔥 BAR + PIE GRID */
+.charts-grid {
+  display: flex;
+  gap: 20px;
+}
+
+.chart-box {
+  flex: 1;
+  height: 260px;
+}
+
+/* 🔥 TABLE */
+.table {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
+  flex: 2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+/* 🔥 TABLE FIX */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+/* COLUMN WIDTH */
+th:nth-child(1), td:nth-child(1) { width: 40%; }
+th:nth-child(2), td:nth-child(2) { width: 20%; }
+th:nth-child(3), td:nth-child(3) { width: 20%; }
+th:nth-child(4), td:nth-child(4) { width: 20%; }
+
+/* 🔥 BUTTON */
+button {
+  background: #2563eb;
+  border: none;
+  padding: 10px 16px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* 🔥 HEADINGS */
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* 🔥 RETRY BOX */
+.retry-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.retry-box h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.retry-box p {
+  color: #64748b;
+  margin-bottom: 15px;
+}
+
+/* 🔥 MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #10b981;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
