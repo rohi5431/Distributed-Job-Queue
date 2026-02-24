@@ -24,7 +24,6 @@ Real-time monitoring of job queue including:
 - Delayed jobs
 - Logs & Error tracking
 - <img width="1895" height="951" alt="image" src="https://github.com/user-attachments/assets/18b7d184-6c6a-4be6-819b-c59d9e2d17d2" />
-<img width="1895" height="951" alt="image" src="https://github.com/user-attachments/assets/18b7d184-6c6a-4be6-819b-c59d9e2d17d2" />
 
 
 ## 📊 User Dashboard
@@ -35,7 +34,6 @@ Frontend interface built with React for:
 - Retry failed jobs
 - Queue controls
 - <img width="1919" height="940" alt="image" src="https://github.com/user-attachments/assets/b854427b-fbc6-4834-a66f-4f9f27c73c5d" />
-<img width="1919" height="940" alt="image" src="https://github.com/user-attachments/assets/b854427b-fbc6-4834-a66f-4f9f27c73c5d" />
 
 
 
