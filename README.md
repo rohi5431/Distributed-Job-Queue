@@ -4,9 +4,6 @@
 
 ---
 
-## 🚀 Live Demo – Distributed Job Queue System
-
-🔗 Live Application: https://distributed-job-queue-1-cpw6.onrender.com
 ## 📌 Introduction
 
 Modern applications require handling tasks asynchronously (emails, notifications, background processing).
