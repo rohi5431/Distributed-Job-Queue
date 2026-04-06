@@ -39,16 +39,8 @@ Frontend interface built with React for:
 
 ## 🧠 System Architecture
 
-```mermaid
-graph TD;
-    A[React Dashboard] --> B[API Server - Express];
-    B --> C[Redis - Queue Storage];
-    C --> D[Worker - BullMQ];
-    D --> B;
-    B --> A;
-```
+<img width="1812" height="820" alt="image" src="https://github.com/user-attachments/assets/4ff67552-6922-4e88-842d-e93708fe0472" />
 
----
 
 ## ✨ Key Features
 
