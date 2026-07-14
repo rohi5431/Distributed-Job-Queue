@@ -1,6 +1,6 @@
-# 🚀 Distributed Job Queue System (Real-Time + Scalable)
+# 🚀 Distributed Job Queue System (Real-Time + Scalable + AI-Powered)
 
-> A **production-grade distributed job queue system** with **real-time monitoring dashboard**, built using **Node.js, BullMQ, Redis, and WebSockets** — inspired by architectures used at Uber, Zomato, and Amazon.
+> A **production-grade distributed job queue system** with **real-time monitoring dashboard**, **AI-powered failure diagnosis**, and **priority-based scheduling**, built using **Node.js, BullMQ, Redis, WebSockets, and Google Gemini API** — inspired by architectures used at Uber, Zomato, and Amazon.
 
 ---
 
@@ -13,6 +13,8 @@ This project demonstrates how to build a **scalable and fault-tolerant job proce
 * 🔄 Background workers
 * 📊 Real-time dashboard
 * 📡 Event-driven architecture
+* 🤖 AI-powered failure diagnosis
+* 🧠 Priority-based job scheduling
 
 ---
 
@@ -22,20 +24,20 @@ Real-time monitoring of job queue including:
 - Completed jobs
 - Failed jobs
 - Delayed jobs
+- Prioritized jobs
 - Logs & Error tracking
 - <img width="1895" height="951" alt="image" src="https://github.com/user-attachments/assets/18b7d184-6c6a-4be6-819b-c59d9e2d17d2" />
 
 
 ## 📊 User Dashboard
 Frontend interface built with React for:
-- Adding new jobs
+- Adding new jobs (with priority selection)
 - Viewing job status
 - Analytics & charts
 - Retry failed jobs
+- AI-powered failure diagnosis
 - Queue controls
 - <img width="1885" height="964" alt="image" src="https://github.com/user-attachments/assets/00260342-9d98-4fdc-a10b-b552e427600b" />
-
-
 
 
 ## 🧠 System Architecture
@@ -82,6 +84,30 @@ Frontend interface built with React for:
 
 ---
 
+### 🔹 🤖 AI-Powered Failure Diagnosis
+
+* 🧠 Integrated **Google Gemini API** to automatically diagnose failed jobs
+* 📋 Analyzes job's `failedReason`, `stacktrace`, and `data` to generate:
+  - **Root Cause** — plain-English explanation of why the job failed
+  - **Error Type** — classification (e.g., network timeout, invalid input, external service failure, code bug)
+  - **Suggested Fix** — a concrete next debugging step
+  - **Retry Recommendation** — whether the job should be auto-retried or needs manual intervention
+* ⚡ Diagnosis results cached in Redis (per job ID) to avoid redundant Gemini API calls
+* 🎯 Diagnosis is grounded strictly in actual error data — no speculative/hallucinated causes
+* 🖱️ Accessible via a **"Diagnose"** button on failed jobs directly in the dashboard
+
+---
+
+### 🔹 🧠 Priority-Based Job Scheduling
+
+* 🎚️ Jobs can be assigned a priority level at creation: **Critical, High, Normal, Low**
+* ⏫ Higher-priority jobs (e.g., password reset emails) are processed before lower-priority ones (e.g., analytics jobs), even if added later
+* 🏷️ Priority displayed as a color-coded badge in the Jobs table
+* 📌 Populates the previously empty **PRIORITIZED** tab in Bull Board with real, live data
+* ✅ Defaults to "Normal" priority if not specified, keeping existing job flows backward-compatible
+
+---
+
 ## 🛠️ Tech Stack
 
 ### 🔹 Backend
@@ -94,6 +120,7 @@ Frontend interface built with React for:
 * Joi
 * Helmet
 * Express Rate Limit
+* Google Gemini API
 
 ### 🔹 Frontend
 
@@ -118,6 +145,8 @@ distributed-job-queue/
 │   │   └── worker.js         # Job processor
 │   ├── config/
 │   │   └── redis.js
+│   ├── services/
+│   │   └── geminiService.js  # AI failure diagnosis logic
 │   ├── utils/
 │   └── dashboard/
 │
@@ -128,6 +157,7 @@ distributed-job-queue/
 │   │   │   ├── Charts.jsx
 │   │   │   ├── JobTable.jsx
 │   │   │   ├── Notification.jsx
+│   │   │   ├── DiagnosisModal.jsx
 │   │   │   └── ...
 │   │   ├── App.jsx
 │   │   ├── socket.js
@@ -161,6 +191,7 @@ Create `.env` file:
 ```env
 PORT=5000
 REDIS_URL=your_redis_connection_string
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 Run server + worker:
@@ -186,7 +217,8 @@ npm run dev
 ### 🔹 Add Job
 
 * Click **"Add Job"** button
-* Job is pushed into Redis queue
+* Select a **priority level** (Critical / High / Normal / Low)
+* Job is pushed into Redis queue and processed according to priority
 
 ### 🔹 Monitor Jobs
 
@@ -198,16 +230,22 @@ npm run dev
 * Click **Retry** button
 * Job reprocessed instantly
 
+### 🔹 Diagnose Failed Jobs
+
+* Click **Diagnose** on any failed job
+* View AI-generated root cause, error type, suggested fix, and retry recommendation
+
 ---
 
 ## 📊 API Endpoints
 
-| Method | Endpoint   | Description        |
-| ------ | ---------- | ------------------ |
-| GET    | /metrics   | Get system metrics |
-| GET    | /jobs      | Fetch all jobs     |
-| POST   | /add-job   | Add new job        |
-| POST   | /retry/:id | Retry failed job   |
+| Method | Endpoint             | Description                          |
+| ------ | --------------------- | ------------------------------------- |
+| GET    | /metrics              | Get system metrics                    |
+| GET    | /jobs                 | Fetch all jobs (includes priority)    |
+| POST   | /add-job               | Add new job (accepts priority field)  |
+| POST   | /retry/:id             | Retry failed job                      |
+| POST   | /api/jobs/:id/diagnose | Get AI-powered failure diagnosis      |
 
 ---
 
@@ -232,6 +270,7 @@ Events triggered:
 * 🔁 Auto retry with exponential backoff
 * 🚀 Concurrent worker processing
 * 📉 Reduced API calls (WebSocket instead of polling)
+* 🧠 Priority-aware job processing order
 
 ---
 
@@ -241,6 +280,7 @@ Events triggered:
 * Rate limiting (50 req/min)
 * Input validation using Joi
 * Efficient Redis usage
+* Cached AI diagnosis results to minimize external API cost/latency
 
 ---
 
@@ -250,6 +290,8 @@ Events triggered:
 * Built a **real-time monitoring dashboard** using WebSockets
 * Implemented **fault-tolerant retry mechanisms** and dead-letter queue
 * Optimized backend using **rate limiting and secure APIs**
+* Integrated **Google Gemini API** for AI-powered failure diagnosis, generating root-cause analysis and retry recommendations for failed jobs
+* Implemented **priority-based job scheduling** using BullMQ's native priority queue for SLA-critical workloads
 
 ---
 
@@ -259,7 +301,8 @@ Events triggered:
 * 📊 Advanced analytics dashboard
 * 📦 Multi-queue support
 * ☁️ Docker + AWS deployment
-* 🧠 Priority-based scheduling
+* 🚨 Anomaly detection on failure/throughput spikes
+* 📝 AI-generated natural language job creation
 
 ---
 
