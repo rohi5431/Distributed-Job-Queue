@@ -33,7 +33,8 @@ Frontend interface built with React for:
 - Analytics & charts
 - Retry failed jobs
 - Queue controls
-- <img width="1919" height="940" alt="image" src="https://github.com/user-attachments/assets/b854427b-fbc6-4834-a66f-4f9f27c73c5d" />
+- <img width="1885" height="964" alt="image" src="https://github.com/user-attachments/assets/00260342-9d98-4fdc-a10b-b552e427600b" />
+
 
 
 
