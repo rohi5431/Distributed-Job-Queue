@@ -1,4 +1,4 @@
-# 🚀 Distributed Job Queue System (Real-Time + Scalable + AI-Powered)
+## 🚀 Distributed Job Queue System (Real-Time + Scalable + AI-Powered)
 
 > A **production-grade distributed job queue system** with **real-time monitoring dashboard**, **AI-powered failure diagnosis**, and **priority-based scheduling**, built using **Node.js, BullMQ, Redis, WebSockets, and Google Gemini API** — inspired by architectures used at Uber, Zomato, and Amazon.
 
