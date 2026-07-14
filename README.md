@@ -284,17 +284,6 @@ Events triggered:
 
 ---
 
-## 💼 Resume Highlights
-
-* Designed and implemented a **distributed job queue system** using BullMQ and Redis
-* Built a **real-time monitoring dashboard** using WebSockets
-* Implemented **fault-tolerant retry mechanisms** and dead-letter queue
-* Optimized backend using **rate limiting and secure APIs**
-* Integrated **Google Gemini API** for AI-powered failure diagnosis, generating root-cause analysis and retry recommendations for failed jobs
-* Implemented **priority-based job scheduling** using BullMQ's native priority queue for SLA-critical workloads
-
----
-
 ## 🌟 Future Enhancements
 
 * 🔔 Notification history panel
