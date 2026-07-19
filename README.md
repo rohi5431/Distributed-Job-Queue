@@ -1,6 +1,6 @@
 ## 🚀 Distributed Job Queue System (Real-Time + Scalable + AI-Powered)
 
-> A **production-grade distributed job queue system** with **real-time monitoring dashboard**, **AI-powered failure diagnosis**, and **priority-based scheduling**, built using **Node.js, BullMQ, Redis, WebSockets, and Google Gemini API** — inspired by architectures used at Uber, Zomato, and Amazon.
+> A **production-grade distributed job queue system** with **real-time monitoring dashboard**, **AI-powered failure diagnosis**, **hybrid local + cloud failure triage**, and **priority-based scheduling**, built using **Node.js, BullMQ, Redis, WebSockets, Google Gemini API, and a fine-tuned local LLM** — inspired by architectures used at Uber, Zomato, and Amazon.
 
 ---
 
@@ -13,7 +13,7 @@ This project demonstrates how to build a **scalable and fault-tolerant job proce
 * 🔄 Background workers
 * 📊 Real-time dashboard
 * 📡 Event-driven architecture
-* 🤖 AI-powered failure diagnosis
+* 🤖 AI-powered failure diagnosis (hybrid: local fine-tuned model + Gemini API fallback)
 * 🧠 Priority-based job scheduling
 
 ---
@@ -98,6 +98,18 @@ Frontend interface built with React for:
 
 ---
 
+### 🔹 🧬 Hybrid AI Triage — Fine-Tuned Local Model + Gemini Fallback (New)
+
+* 🚀 Added a **fine-tuned local LLM** (LoRA fine-tuned Phi-3-mini / Llama-3.2-3B via Hugging Face `transformers` + `peft`) as a fast, low-cost **first-pass classifier** for failed jobs
+* 🧭 **Hybrid triage router**: every failure is first sent to the local fine-tuned model; if its confidence score is above threshold, its classification is used directly and the Gemini API call is skipped entirely
+* 🔁 If confidence is low, or the local model service is unavailable, the request **falls through unchanged** to the existing Gemini diagnosis flow — original behavior is fully preserved
+* 🐳 Local model served via a **separate, isolated FastAPI microservice**, run as an additional Docker container — does not modify any existing Node.js service, route, or Gemini integration
+* 🚩 Fully controlled by a feature flag (`ENABLE_LOCAL_TRIAGE`) — can be switched off instantly to revert to 100% original Gemini-only behavior with zero code changes
+* 📊 Tracks and logs: local-model-handled vs. Gemini-fallback rate, latency per path, and classification agreement between the two, for direct before/after comparison
+* 💰 Result: near-zero marginal cost and lower latency for common/known failure types, while retaining Gemini's deeper reasoning for unfamiliar or ambiguous failures
+
+---
+
 ### 🔹 🧠 Priority-Based Job Scheduling
 
 * 🎚️ Jobs can be assigned a priority level at creation: **Critical, High, Normal, Low**
@@ -122,6 +134,15 @@ Frontend interface built with React for:
 * Express Rate Limit
 * Google Gemini API
 
+### 🔹 AI / ML (New)
+
+* Python
+* FastAPI (local model inference microservice)
+* Hugging Face `transformers`
+* `peft` (LoRA fine-tuning)
+* `trl` (SFTTrainer)
+* Fine-tuned Phi-3-mini / Llama-3.2-3B
+
 ### 🔹 Frontend
 
 * React.js
@@ -136,33 +157,46 @@ Frontend interface built with React for:
 ```bash
 distributed-job-queue/
 │
+├── dashboard/                     # Bull Board admin dashboard
+├── frontend/                      # React client app
+├── logs/
+│
+├── python-model-service/          # NEW — isolated FastAPI microservice for local fine-tuned model
+│   ├── venv/
+│   ├── Dockerfile
+│   ├── main.py                    # /classify endpoint
+│   └── requirements.txt
+│
 ├── server/
-│   ├── index.js              # API Server
-│   ├── socket.js             # WebSocket setup
-│   ├── queue/
-│   │   └── queue.js          # BullMQ queue
-│   ├── worker/
-│   │   └── worker.js         # Job processor
-│   ├── config/
-│   │   └── redis.js
+│   ├── config/                    # Redis + app config
+│   ├── dashboard/
+│   │   ├── bullBoard.js
+│   │   └── index.js
+│   ├── jobs/                      # Job definitions
+│   │   ├── emailJob.js
+│   │   ├── imageJob.js
+│   │   └── reportJob.js
+│   ├── logs/
+│   ├── node_modules/
+│   ├── queue/                     # BullMQ queue setup
 │   ├── services/
-│   │   └── geminiService.js  # AI failure diagnosis logic
+│   │   ├── triage-router/         # NEW — hybrid local-model + Gemini router
+│   │   ├── diagnosisService.js    # Orchestrates hybrid triage → Gemini fallback
+│   │   ├── geminiService.js       # AI failure diagnosis logic (unchanged)
+│   │   └── queueService.js
 │   ├── utils/
-│   └── dashboard/
+│   ├── worker/
+│   │   ├── logs/
+│   │   ├── clusterWorker.js
+│   │   └── worker.js              # Job processor
+│   ├── .env
+│   ├── docker-compose.yml         # UPDATED — adds python-model-service container only
+│   ├── index.js                   # API Server
+│   ├── package.json
+│   ├── package-lock.json
+│   └── socket.js                  # WebSocket setup
 │
-├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Metrics.jsx
-│   │   │   ├── Charts.jsx
-│   │   │   ├── JobTable.jsx
-│   │   │   ├── Notification.jsx
-│   │   │   ├── DiagnosisModal.jsx
-│   │   │   └── ...
-│   │   ├── App.jsx
-│   │   ├── socket.js
-│   │   └── App.css
-│
+├── .gitignore
 └── README.md
 ```
 
@@ -192,6 +226,11 @@ Create `.env` file:
 PORT=5000
 REDIS_URL=your_redis_connection_string
 GEMINI_API_KEY=your_gemini_api_key
+
+# New — Hybrid AI Triage config
+ENABLE_LOCAL_TRIAGE=true
+LOCAL_MODEL_SERVICE_URL=http://localhost:8001
+LOCAL_TRIAGE_CONFIDENCE_THRESHOLD=0.75
 ```
 
 Run server + worker:
@@ -209,6 +248,24 @@ cd client
 npm install
 npm run dev
 ```
+
+---
+
+### 4️⃣ Local Model Service Setup (New)
+
+```bash
+cd python-model-service
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8001
+```
+
+Or run everything together via Docker Compose (existing services unchanged, new service added):
+
+```bash
+docker-compose up --build
+```
+
+> 💡 Set `ENABLE_LOCAL_TRIAGE=false` in `.env` at any time to disable the local model path entirely and fall back to 100% original Gemini-only diagnosis behavior.
 
 ---
 
@@ -233,19 +290,21 @@ npm run dev
 ### 🔹 Diagnose Failed Jobs
 
 * Click **Diagnose** on any failed job
-* View AI-generated root cause, error type, suggested fix, and retry recommendation
+* Request is routed through the hybrid triage layer: local fine-tuned model attempts classification first, falling back to Gemini automatically if needed
+* View AI-generated root cause, error type, suggested fix, retry recommendation, and which path (local model vs. Gemini) produced the result
 
 ---
 
 ## 📊 API Endpoints
 
-| Method | Endpoint             | Description                          |
-| ------ | --------------------- | ------------------------------------- |
-| GET    | /metrics              | Get system metrics                    |
-| GET    | /jobs                 | Fetch all jobs (includes priority)    |
-| POST   | /add-job               | Add new job (accepts priority field)  |
-| POST   | /retry/:id             | Retry failed job                      |
-| POST   | /api/jobs/:id/diagnose | Get AI-powered failure diagnosis      |
+| Method | Endpoint               | Description                                                  |
+| ------ | ---------------------- | -------------------------------------------------------------|
+| GET    | /metrics                | Get system metrics                                           |
+| GET    | /jobs                   | Fetch all jobs (includes priority)                           |
+| POST   | /add-job                | Add new job (accepts priority field)                         |
+| POST   | /retry/:id              | Retry failed job                                              |
+| POST   | /api/jobs/:id/diagnose  | Get AI-powered failure diagnosis (hybrid: local model → Gemini) |
+| POST   | /classify (Python service, internal) | Local fine-tuned model classification endpoint  |
 
 ---
 
@@ -271,6 +330,7 @@ Events triggered:
 * 🚀 Concurrent worker processing
 * 📉 Reduced API calls (WebSocket instead of polling)
 * 🧠 Priority-aware job processing order
+* 🧬 Reduced Gemini API calls and diagnosis latency via local fine-tuned model first-pass triage
 
 ---
 
@@ -281,6 +341,7 @@ Events triggered:
 * Input validation using Joi
 * Efficient Redis usage
 * Cached AI diagnosis results to minimize external API cost/latency
+* Local model inference isolated in its own microservice to avoid impacting existing Node.js service reliability
 
 ---
 
@@ -292,6 +353,7 @@ Events triggered:
 * ☁️ Docker + AWS deployment
 * 🚨 Anomaly detection on failure/throughput spikes
 * 📝 AI-generated natural language job creation
+* 📈 Continual fine-tuning of local model using Gemini fallback results as new training data
 
 ---
 
@@ -311,16 +373,10 @@ Feel free to fork and improve.
 
 ---
 
-## 📜 License
-
-MIT License
-
----
-
 ## 👨‍💻 Author
 
 **Rohit Kumar**
-🚀 Backend & System Design Enthusiast
+🚀 AI Engineer Enthusiast
 
 ---
 
