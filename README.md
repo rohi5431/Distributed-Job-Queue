@@ -86,15 +86,15 @@ Frontend interface built with React for:
 
 ### 🔹 🤖 AI-Powered Failure Diagnosis
 
-* 🧠 Integrated **Google Gemini API** to automatically diagnose failed jobs
-* 📋 Analyzes job's `failedReason`, `stacktrace`, and `data` to generate:
+. Integrated **Google Gemini API** to automatically diagnose failed jobs
+. 📋 Analyzes job's `failedReason`, `stacktrace`, and `data` to generate:
   - **Root Cause** — plain-English explanation of why the job failed
   - **Error Type** — classification (e.g., network timeout, invalid input, external service failure, code bug)
   - **Suggested Fix** — a concrete next debugging step
   - **Retry Recommendation** — whether the job should be auto-retried or needs manual intervention
-* ⚡ Diagnosis results cached in Redis (per job ID) to avoid redundant Gemini API calls
-* 🎯 Diagnosis is grounded strictly in actual error data — no speculative/hallucinated causes
-* 🖱️ Accessible via a **"Diagnose"** button on failed jobs directly in the dashboard
+. Diagnosis results cached in Redis (per job ID) to avoid redundant Gemini API calls
+. Diagnosis is grounded strictly in actual error data — no speculative/hallucinated causes
+. Accessible via a **"Diagnose"** button on failed jobs directly in the dashboard
 
 ---
 
