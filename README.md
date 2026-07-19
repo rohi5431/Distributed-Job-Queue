@@ -9,12 +9,12 @@
 Modern applications require handling tasks asynchronously (emails, notifications, background processing).
 This project demonstrates how to build a **scalable and fault-tolerant job processing system** with:
 
-* ⚡ High-performance queue system
-* 🔄 Background workers
-* 📊 Real-time dashboard
-* 📡 Event-driven architecture
-* 🤖 AI-powered failure diagnosis (hybrid: local fine-tuned model + Gemini API fallback)
-* 🧠 Priority-based job scheduling
+* High-performance queue system
+* Background workers
+* Real-time dashboard
+* Event-driven architecture
+* AI-powered failure diagnosis (hybrid: local fine-tuned model + Gemini API fallback)
+* Priority-based job scheduling
 
 ---
 
