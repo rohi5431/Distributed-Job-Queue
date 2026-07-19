@@ -42,8 +42,7 @@ Frontend interface built with React for:
 
 ## 🧠 System Architecture
 
-<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/fa1331b3-d9f0-47d6-a07e-32d8639d8eef" />
-
+<img width="1038" height="1515" alt="image" src="https://github.com/user-attachments/assets/fdc80e18-cd35-4de8-8fe6-572f8394c968" />
 
 
 ## ✨ Key Features
