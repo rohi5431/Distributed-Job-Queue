@@ -100,7 +100,7 @@ Frontend interface built with React for:
 
 ### 🔹 🧬 Hybrid AI Triage — Fine-Tuned Local Model + Gemini Fallback (New)
 
-* Added a fine-tuned local LLM (LoRA fine-tuned Phi-3-mini / Llama-3.2-3B) as a fast, low-cost first-pass classifier for failed jobs
+* Added a **fine-tuned local LLM (LoRA fine-tuned Phi-3-mini / Llama-3.2-3B)** as a fast, low-cost first-pass classifier for failed jobs
 * Hybrid triage router: failures go to the local model first; high-confidence results skip the Gemini API call entirely
 * Low confidence or model unavailable → falls through unchanged to the existing Gemini flow, preserving original behavior
 * Local model runs in a separate, isolated FastAPI microservice — no changes to existing Node.js services or routes
@@ -325,12 +325,12 @@ Events triggered:
 
 ## 📈 Performance Features
 
-* ⚡ Throughput calculation (jobs/sec)
-* 🔁 Auto retry with exponential backoff
-* 🚀 Concurrent worker processing
-* 📉 Reduced API calls (WebSocket instead of polling)
-* 🧠 Priority-aware job processing order
-* 🧬 Reduced Gemini API calls and diagnosis latency via local fine-tuned model first-pass triage
+* Throughput calculation (jobs/sec)
+* Auto retry with exponential backoff
+* Concurrent worker processing
+* Reduced API calls (WebSocket instead of polling)
+* Priority-aware job processing order
+* Reduced Gemini API calls and diagnosis latency via local fine-tuned model first-pass triage
 
 ---
 
