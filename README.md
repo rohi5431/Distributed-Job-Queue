@@ -86,27 +86,27 @@ Frontend interface built with React for:
 
 ### 🔹 🤖 AI-Powered Failure Diagnosis
 
-. Integrated **Google Gemini API** to automatically diagnose failed jobs
-. 📋 Analyzes job's `failedReason`, `stacktrace`, and `data` to generate:
+* Integrated **Google Gemini API** to automatically diagnose failed jobs
+* Analyzes job's `failedReason`, `stacktrace`, and `data` to generate:
   - **Root Cause** — plain-English explanation of why the job failed
   - **Error Type** — classification (e.g., network timeout, invalid input, external service failure, code bug)
   - **Suggested Fix** — a concrete next debugging step
   - **Retry Recommendation** — whether the job should be auto-retried or needs manual intervention
-. Diagnosis results cached in Redis (per job ID) to avoid redundant Gemini API calls
-. Diagnosis is grounded strictly in actual error data — no speculative/hallucinated causes
-. Accessible via a **"Diagnose"** button on failed jobs directly in the dashboard
+* Diagnosis results cached in Redis (per job ID) to avoid redundant Gemini API calls
+* Diagnosis is grounded strictly in actual error data — no speculative/hallucinated causes
+* Accessible via a **"Diagnose"** button on failed jobs directly in the dashboard
 
 ---
 
 ### 🔹 🧬 Hybrid AI Triage — Fine-Tuned Local Model + Gemini Fallback (New)
 
-* 🚀 Added a **fine-tuned local LLM** (LoRA fine-tuned Phi-3-mini / Llama-3.2-3B via Hugging Face `transformers` + `peft`) as a fast, low-cost **first-pass classifier** for failed jobs
-* 🧭 **Hybrid triage router**: every failure is first sent to the local fine-tuned model; if its confidence score is above threshold, its classification is used directly and the Gemini API call is skipped entirely
-* 🔁 If confidence is low, or the local model service is unavailable, the request **falls through unchanged** to the existing Gemini diagnosis flow — original behavior is fully preserved
-* 🐳 Local model served via a **separate, isolated FastAPI microservice**, run as an additional Docker container — does not modify any existing Node.js service, route, or Gemini integration
-* 🚩 Fully controlled by a feature flag (`ENABLE_LOCAL_TRIAGE`) — can be switched off instantly to revert to 100% original Gemini-only behavior with zero code changes
-* 📊 Tracks and logs: local-model-handled vs. Gemini-fallback rate, latency per path, and classification agreement between the two, for direct before/after comparison
-* 💰 Result: near-zero marginal cost and lower latency for common/known failure types, while retaining Gemini's deeper reasoning for unfamiliar or ambiguous failures
+* Added a fine-tuned local LLM (LoRA fine-tuned Phi-3-mini / Llama-3.2-3B) as a fast, low-cost first-pass classifier for failed jobs
+* Hybrid triage router: failures go to the local model first; high-confidence results skip the Gemini API call entirely
+* Low confidence or model unavailable → falls through unchanged to the existing Gemini flow, preserving original behavior
+* Local model runs in a separate, isolated FastAPI microservice — no changes to existing Node.js services or routes
+* Fully controlled by a feature flag (`ENABLE_LOCAL_TRIAGE`) — instantly revert to 100% original Gemini-only behavior
+* Logs local-vs-Gemini handling rate, latency, and classification agreement for before/after comparison
+* Result: near-zero marginal cost and lower latency for common failures, Gemini still handles the ambiguous ones
 
 ---
 
