@@ -42,7 +42,7 @@ Frontend interface built with React for:
 
 ## 🧠 System Architecture
 
-<img width="1885" height="900" alt="image" src="https://github.com/user-attachments/assets/fa1331b3-d9f0-47d6-a07e-32d8639d8eef" />
+<img width="900" height="900" alt="image" src="https://github.com/user-attachments/assets/fa1331b3-d9f0-47d6-a07e-32d8639d8eef" />
 
 
 
