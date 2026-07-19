@@ -49,38 +49,38 @@ Frontend interface built with React for:
 
 ### 🔹 Core System Features
 
-* ✅ Distributed job queue using **BullMQ**
-* ✅ Background job processing with **Worker service**
-* ✅ Redis-based message broker
-* ✅ REST API for job management
+* Distributed job queue using **BullMQ**
+* Background job processing with **Worker service**
+* Redis-based message broker
+* REST API for job management
 
 ---
 
 ### 🔹 Real-Time Features
 
-* 📡 WebSocket integration using **Socket.IO**
-* ⚡ Instant UI updates (No polling)
-* 🔔 Live toast notifications
+* WebSocket integration using **Socket.IO**
+* Instant UI updates (No polling)
+* Live toast notifications
 
 ---
 
 ### 🔹 Dashboard Features
 
-* 📊 Live metrics (Total, Active, Completed, Failed)
-* 📈 Bar + Pie chart analytics
-* 📋 Job table with real-time status
-* 🧾 Job detail modal
-* 🔁 Retry failed jobs
+* Live metrics (Total, Active, Completed, Failed)
+* Bar + Pie chart analytics
+* Job table with real-time status
+* Job detail modal
+* Retry failed jobs
 
 ---
 
 ### 🔹 Reliability & Security
 
-* 🔄 Retry mechanism with backoff strategy
-* ☠️ Dead Letter Queue (DLQ)
-* 🛡️ Rate limiting (API protection)
-* 🔐 Helmet security middleware
-* ✅ Input validation (Joi)
+* Retry mechanism with backoff strategy
+* Dead Letter Queue (DLQ)
+* Rate limiting (API protection)
+* Helmet security middleware
+* Input validation (Joi)
 
 ---
 
@@ -112,11 +112,11 @@ Frontend interface built with React for:
 
 ### 🔹 🧠 Priority-Based Job Scheduling
 
-* 🎚️ Jobs can be assigned a priority level at creation: **Critical, High, Normal, Low**
-* ⏫ Higher-priority jobs (e.g., password reset emails) are processed before lower-priority ones (e.g., analytics jobs), even if added later
-* 🏷️ Priority displayed as a color-coded badge in the Jobs table
-* 📌 Populates the previously empty **PRIORITIZED** tab in Bull Board with real, live data
-* ✅ Defaults to "Normal" priority if not specified, keeping existing job flows backward-compatible
+* Jobs can be assigned a priority level at creation: **Critical, High, Normal, Low**
+* Higher-priority jobs (e.g., password reset emails) are processed before lower-priority ones (e.g., analytics jobs), even if added later
+* Priority displayed as a color-coded badge in the Jobs table
+* Populates the previously empty **PRIORITIZED** tab in Bull Board with real, live data
+* Defaults to "Normal" priority if not specified, keeping existing job flows backward-compatible
 
 ---
 
@@ -347,13 +347,13 @@ Events triggered:
 
 ## 🌟 Future Enhancements
 
-* 🔔 Notification history panel
-* 📊 Advanced analytics dashboard
-* 📦 Multi-queue support
-* ☁️ Docker + AWS deployment
-* 🚨 Anomaly detection on failure/throughput spikes
-* 📝 AI-generated natural language job creation
-* 📈 Continual fine-tuning of local model using Gemini fallback results as new training data
+* Notification history panel
+* Advanced analytics dashboard
+* Multi-queue support
+* Docker + AWS deployment
+* Anomaly detection on failure/throughput spikes
+* AI-generated natural language job creation
+* Continual fine-tuning of local model using Gemini fallback results as new training data
 
 ---
 
